@@ -1,0 +1,105 @@
+// global variable
+%fontFamily {
+	font-family: PingFang SC Regular, Microsoft Yahei, Arial;
+}
+
+%no-margin {
+	margin: 0;
+}
+
+%no-padding {
+	padding: 0;
+}
+
+%no-border {
+	border: 0;
+}
+
+%pointer {
+	cursor: pointer;
+}
+
+%webkit-appearance {
+	-webkit-appearance: none;
+}
+
+%btnClick {
+	-webkit-tap-highlight-color:transparent;
+}
+
+.clean {
+	overflow: hidden;
+}
+
+.clear {
+	display: block;
+	zoom: 1;
+	&:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+// meine reset css
+body {
+	@extend %fontFamily;
+	@extend %no-margin;
+}
+
+ul, ol {
+	list-style: none;
+	@extend %no-margin;
+	@extend %no-padding;
+}
+
+dl, dd {
+	@extend %no-margin;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+	@extend %no-margin;
+}
+
+input[type=text], textarea, input[type=submit], input[type=button], button {
+	outline: none;
+	@extend %fontFamily;
+	@extend %no-padding;
+	@extend %no-border;
+	@extend %webkit-appearance;
+	@extend %btnClick;
+}
+
+img {
+	@extend %no-border;
+}
+
+textarea {
+	resize: none;
+	overflow-y: hidden;
+}
+
+input[type=submit], input[type=button], button {
+	@extend %pointer;
+}
+
+input[type=file] {
+	@extend %btnClick;
+}
+
+option {
+	@extend %no-padding;
+}
+
+i {
+	font-style: normal;
+}
+
+a {
+	text-decoration: none;
+	@extend %btnClick;
+}

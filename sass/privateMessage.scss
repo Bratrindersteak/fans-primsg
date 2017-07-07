@@ -1,0 +1,74 @@
+@import "reset.scss";
+@import "initialization.scss";
+
+$ie6_hack: '_';
+$ie7_hack: '+';
+$ie8_hack: '\\9';
+$image_path: '../img/';
+
+%m-width {
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+%before {
+    &:before {
+        content: '';
+        @extend %absolute;
+    }
+}
+
+%after {
+    &:after {
+        content: '';
+        @extend %absolute;
+    }
+}
+
+.container {
+    // @extend %m-width;
+}
+
+.alpha {
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #000000#{$ie8_hack};
+    #{$ie7_hack}background-color: #000000;
+    opacity: 0.5#{$ie8_hack};
+    filter: alpha(opacity=50);
+    z-index: 10;
+}
+
+.transparent-layer {
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.image {
+	position: relative;
+	font-size: 0;
+
+	&:after {
+		content: '';
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		@extend %absolute;
+	}
+}
+
+.pd-h-10 {
+    padding: 0 2.67%;
+}
+
+// @import "mini-apps.scss";
+@import "app-privateMessage.scss";

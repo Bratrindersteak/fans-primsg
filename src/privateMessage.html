@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html data-rem="true">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title></title>
+	<meta name="format-detection" content="telephone=no" />
+	<!-- build:css css/privateMessage.{{version}}.css?ts={{ts}}-->
+	<link rel="stylesheet" type="text/css" href="./css/privateMessage.css" />
+	<!-- /build -->
+	<script type="text/javascript" src="//s2.h5.itc.cn/touch/fox/js/??seajs-03c5c6ba18.js,zepto-9e0ad47abe.js,rem-2fd53b425f.js"></script>
+</head>
+<body>
+	<div class="wrapper pull" id="wrapper">
+		<ul id="messageList" class="message-list iscroll list-loading">
+		</ul>
+	</div>
+	<div class="loading-icon transparent" id="loading"></div>
+	<div id="displayLayer" class="display-layer" style="display: none;cursor: pointer"><img class="wide reset" src="" /></div>
+	<div id="sendBox" class="send-box">
+		<input id="contentInput" type="text" class="input" />
+		<label for="uploadPic" class="send"></label>
+		<input class="send" id="uploadPic" type="file" multiple="multiple" accept="image/jpg,image/png,image/jpeg" />
+	</div>
+
+	<script id="listTemplate" type="text/x-handlebars-template">
+		{{#each this.data}}
+			<li class="message-box">
+				<div class="time-info"><span class="date">{{day this.createTime}}</span><span class="time">{{time this.createTime}}</span></div>
+				<div class="main-info{{sender this.senderUid}} {{messageType this.contentType}}">
+					{{#hasPortrait contentType}}
+						<div class="portrait image" data-pgc='selfIsPgc'>
+							<img src="{{../../self.selfPic}}" width="100%" />
+						</div>
+					{{/hasPortrait}}
+					{{messageContent this}}
+				</div>
+			</li>
+		{{/each}}
+	</script>
+
+	<script id="sendTemplate" type="text/x-handlebars-template">
+		<div class="time-info"><span class="date">{{day this.datetime}}</span><span class="time">{{time this.datetime}}</span></div>
+		<div class="main-info mein {{senderMessageType content}}">
+			<div class="portrait image" data-pgc='selfIsPgc'>
+				<img src="{{this.senderPic}}" width="100%" />
+			</div>
+			{{sendMessageContent this.content}}
+		</div>
+	</script>
+
+	<script type="text/javascript">
+		seajs.config({
+			map: [
+				['.js', '.js?v1.1.3']
+			],
+			base: './js/',
+			alias: {
+				'foxUI': '//s1.h5.itc.cn/touch/pmall/js/foxUI.pmall.js',
+				'handlebars': '//s1.h5.itc.cn/touch/fox/js/libs/handlebars.js'
+				//aliasReplace{{primsgAll}}
+			},
+			preload: ['handlebars', 'foxUI'
+				//preloadReplace{{primsgAll}}
+			],
+			charset: 'utf-8'
+		});
+
+		seajs.use('privateMessage', function (privateMessage) {
+			privateMessage.init();
+		});
+	</script>
+</body>
+</html>

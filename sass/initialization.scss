@@ -1,0 +1,739 @@
+//public gradient function.
+@mixin normalGradient($type, $direction, $startColor, $endColor) {
+  background-image: -moz-#{$type}-gradient($direction, #{$startColor}, #{$endColor});// for Firefox.
+  background-image: -webkit-#{$type}-gradient($direction,#{$startColor}, #{$endColor});// for new chrome.
+  
+  @if $direction == top {
+   background-image: -webkit-gradient(#{$type}, $direction, bottom, from(#{$startColor}), to(#{$endColor}));// for old chrome.
+  } @else if $direction == left {
+    background-image: -webkit-gradient(#{$type}, $direction, right, from(#{$startColor}), to(#{$endColor}));// for old chrome.
+  }
+  
+  background-image: -o-#{$type}-gradient($direction, #{$startColor}, #{$endColor});// for opera.
+  background-image: -ms-#{$type}-gradient($direction, #{$startColor}, #{$endColor});// IE 10+.
+  
+  @if $type == linear {
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#{$startColor}, endColorstr=#{$endColor});// IE 9-.
+  } @else if $type == radial {
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr=#{$startColor}, endColorstr=#{$endColor});// IE 9-.
+  }
+}
+
+@mixin boxShadow($boxShadow) {
+	box-shadow: $boxShadow;
+}
+
+@mixin transition($duration) {
+	transition: #{$duration}s;
+	-moz-transition: #{$duration}s;
+	-webkit-transition: #{$duration}s;
+	-o-transition: #{$duration}s;
+}
+
+@mixin transform($angle) {
+	transform: rotate(#{$angle}deg);
+	-webkit-transform: rotate(#{$angle}deg);
+	-moz-transform: rotate(#{$angle}deg);
+	-ms-transform: rotate(#{$angle}deg);
+	-o-transform: rotate(#{$angle}deg);
+}
+
+@mixin multiRowEllipsis($line) {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: #{$line};
+	-webkit-box-orient: vertical;
+}
+
+$img-prefix: '../../';
+
+%float-left {
+	float: left;
+}
+
+ %float-right {
+ 	float: right;
+}
+
+%flex-box {
+	overflow: hidden;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	-moz-flex-direction: row;
+	-ms-flex-direction: row;
+	-o-flex-direction: row;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	-moz-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	-o-flex-wrap: wrap;
+	flex-wrap: wrap;
+	flex-flow: row wrap;
+}
+
+%flex-elements-none {
+	flex: none;
+	align-self: center;
+}
+
+%flex-elements-auto {
+	flex: auto;
+	align-self: center;
+}
+
+%static {
+	position: static;
+}
+
+%relative {
+	position: relative;
+}
+
+%absolute {
+	position: absolute;
+}
+
+%fixed {
+	position: fixed;
+}
+
+%text-align {
+	text-align: center;
+}
+
+%font-zero {
+	font-size: 0px;
+}
+
+%font-ten {
+	font-size: 10px;
+}
+
+%font-eleven {
+	font-size: 11px;
+}
+
+%font-twelve {
+	font-size: 12px;
+}
+
+%font-thirteen {
+	font-size: 13px;
+}
+
+%font-fourteen {
+	font-size: 14px;
+}
+
+%font-fifteen {
+	font-size: 15px;
+}
+
+%font-sixteen {
+	font-size: 16px;
+}
+
+%font-seventeen {
+	font-size: 17px;
+}
+
+%font-eighteen {
+	font-size: 18px;
+}
+
+%font-ninteen {
+	font-size: 19px;
+}
+
+%font-twenty {
+	font-size: 20px;
+}
+
+%font-twenty-one {
+	font-size: 21px;
+}
+
+%font-twenty-two {
+	font-size: 22px;
+}
+
+%font-twenty-three {
+	font-size: 23px;
+}
+
+%font-twenty-four {
+	font-size: 24px;
+}
+
+%font-twenty-five {
+	font-size: 25px;
+}
+
+%font-twenty-six {
+	font-size: 26px;
+}
+
+%font-twenty-seven {
+	font-size: 27px;
+}
+
+%font-twenty-eight {
+	font-size: 28px;
+}
+
+%font-thirty-nine {
+	font-size: 39px;
+}
+
+%font-forty-two {
+	font-size: 42px;
+}
+
+%font-forty-seven {
+	font-size: 47px;
+}
+
+%font-thirty {
+	font-size: 30px;
+}
+
+%font-thirty-four {
+	font-size: 34px;
+}
+
+%font-normal {
+	font-weight: normal;
+}
+
+%font-bold {
+	font-weight: bold;
+}
+
+%font-arial {
+	font-family: Arial;
+}
+
+%font-STXihei {
+	font-family: STXihei;
+}
+
+%font-pingfang-Medium {
+	font-family: PingFang SC Medium;
+}
+
+%bkgfff {
+	background-color: #ffffff;
+}
+
+%bkg000 {
+	background-color: #000000;
+}
+
+%bkg333 {
+	background-color: #333333;
+}
+
+%bkg666 {
+	background-color: #666666;
+}
+
+%bkg999 {
+	background-color: #999999;
+}
+
+%bkgccc {
+	background-color: #cccccc;
+}
+
+%bkgddd {
+	background-color: #dddddd;
+}
+
+%bkgbebebe {
+	background-color: #bebebe;
+}
+
+%bkgf0f0f0 {
+	background-color: #f0f0f0;
+}
+
+%bkgf1f1f1 {
+	background-color: #f1f1f1;
+}
+
+%bkgf2f2f2 {
+	background-color: #f2f2f2;
+}
+
+%bkgf3f3f3 {
+	background-color: #f3f3f3;
+}
+
+%bkgf4f4f4 {
+	background-color: #f4f4f4;
+}
+
+%bkgf5f5f5 {
+	background-color: #f5f5f5;
+}
+
+%bkgf6f6f6 {
+	background-color: #f6f6f6;
+}
+
+%bkgf7f7f7 {
+	background-color: #f7f7f7;
+}
+
+%bkgf8f8f8 {
+	background-color: #f8f8f8;
+}
+
+%bkgf9f9f9 {
+	background-color: #f9f9f9;
+}
+
+%bkgfafafa {
+	background-color: #fafafa;
+}
+
+%bkg404954 {
+	background-color: #404954;
+}
+
+%bkgd93434 {
+	background-color: #d93434;
+}
+
+%bkgeb4a4a {
+	background-color: #eb4a4a;
+}
+
+%bkge2e2e2 {
+	background-color: #e2e2e2;
+}
+
+%bkge3e3e3 {
+	background-color: #e3e3e3;
+}
+
+%bkg838383 {
+	background-color: #838383;
+}
+
+%bkgc1282d {
+	background-color: #c1282d;
+}
+
+%bkgeeeef0 {
+	background-color: #eeeef0;
+}
+
+%bkg35ab4f {
+	background-color: #35ab4f;
+}
+
+%bkgff8d1e {
+	background-color: #ff8d1e;
+}
+
+%bkg45b853 {
+	background-color: #45b853;
+}
+
+%bkgff9000 {
+	background-color: #ff9000;
+}
+
+%bkgefefef {
+	background-color: #efefef;
+}
+
+%bkg0084ff {
+	background-color: #0084ff;
+}
+
+%bkg6ca3e1 {
+	background-color: #6ca3e1;
+}
+
+%bkgf3f4f5 {
+	background-color: #f3f4f5;
+}
+
+%bkg535353 {
+	background-color: #535353;
+}
+
+%bkg0a2a52 {
+	background-color: #0a2a52;
+}
+
+%bkg81888d {
+	background-color: #81888d;
+}
+
+%bkgc6ced6 {
+	background-color: #c6ced6;
+}
+
+%bkgf42b2b {
+	background-color: #f42b2b;
+}
+
+%bkgff9307 {
+	background-color: #ff9307;
+}
+
+%bkgffdb14 {
+	background-color: #ffdb14;
+}
+
+%bkg62a02a {
+	background-color: #62a02a;
+}
+
+%bkg3f79c9 {
+	background-color: #3f79c9;
+}
+
+%bkg6a3631 {
+	background-color: #6a3631;
+}
+
+%bkgdba949 {
+	background-color: #dba949;
+}
+
+%bkg835dbd {
+	background-color: #835dbd;
+}
+
+%bkg606060 {
+	background-color: #606060;
+}
+
+%bkgf29600 {
+	background-color: #f29600;
+}
+
+%bkg9ac875 {
+	background-color: #9ac875;
+}
+
+%bkgee394b {
+	background-color: #ee394b;
+}
+
+%bkga8a8a8 {
+	background-color: #a8a8a8;
+}
+
+%bkgf9a300 {
+	background-color: #f9a300;
+}
+
+%bkg40b053 {
+	background-color: #40b053;
+}
+
+%bkgf39800 {
+	background-color: #f39800;
+}
+
+%bkgf8a000 {
+	background-color: #f8a000;
+}
+
+%bkgf78f00 {
+	background-color: #f78f00;
+}
+
+%bkge9fcc0 {
+	background-color: #e9fcc0;
+}
+
+%bkgfffae1 {
+	background-color: #fffae1;
+}
+
+%bkg2dc1b4 {
+	background-color: #2dc1b4;
+}
+
+%bkgfca201 {
+	background-color: #fca201;
+}
+
+%bkg6ec137 {
+	background-color: #6ec137;
+}
+
+%bkgd9d9d9 {
+	background-color: #d9d9d9;
+}
+
+%bkgfff6c7 {
+	background-color: #fff6c7;
+}
+
+%bkgf88f00 {
+	background-color: #f88f00;
+}
+
+%bkgdadada {
+	background-color: #dadada;
+}
+
+%bkgdde0e7 {
+	background-color: #dde0e7;
+}
+
+%bkgf29100 {
+	background-color: #f29100;
+}
+
+%bkgf28900 {
+	background-color: #f28900;
+}
+
+%bkgf27649 {
+	background-color: #f27649;
+}
+
+%bkgf06060 {
+	background-color: #f06060;
+}
+
+%bkg61c791 {
+	background-color: #61c791;
+}
+
+%bkg8cb302 {
+	background-color: #8cb302;
+}
+
+%bkg455c7b {
+	background-color: #455c7b;
+}
+
+%bkge6e6e6 {
+	background-color: #e6e6e6;
+}
+
+%bkgf7f5f5 {
+	background-color: #f7f5f5;
+}
+
+%bkge64340 {
+	background-color: #e64340;
+}
+
+%bkgc7c7cc {
+	background-color: #c7c7cc;
+}
+
+%colorbebebe {
+	color: #bebebe;
+}
+
+%colorfff {
+	color: #ffffff;
+}
+
+%color000 {
+	color: #000000;
+}
+
+%color222 {
+	color: #222222;
+}
+
+%color333 {
+	color: #333333;
+}
+
+%color666 {
+	color: #666666;
+}
+
+%color999 {
+	color: #999999;
+}
+
+%colorccc {
+	color: #cccccc;
+}
+
+%color282828 {
+	color: #282828;
+}
+
+%color535353 {
+	color: #535353;
+}
+
+%color646464 {
+	color: #646464;
+}
+
+%color838383 {
+	color: #838383;
+}
+
+%colorffab0a {
+	color: #ffab0a;
+}
+
+%colora6a6a6 {
+	color: #a6a6a6;
+}
+
+%colore8342f {
+	color: #e8342f;
+}
+
+%colore8342f {
+	color: #e8342f;
+}
+
+%color808080 {
+	color: #808080;
+}
+
+%colorb2b2b2 {
+	color: #b2b2b2;
+}
+
+%colorb4b4b4 {
+	color: #b4b4b4;
+}
+
+%colorf29600 {
+	color: #f29600;
+}
+
+%colora8a8a8 {
+	color: #a8a8a8;
+}
+
+%color969696 {
+	color: #969696;
+}
+
+%colorff9307 {
+	color: #ff9307;
+}
+
+%coloree394b {
+	color: #ee394b;
+}
+
+%colorf9a300 {
+	color: #f9a300;
+}
+
+%colorf20000 {
+	color: #f20000;
+}
+
+%colord70000 {
+	color: #d70000;
+}
+
+%color40b053 {
+	color: #40b053;
+}
+
+%colorf39800 {
+	color: #f39800;
+}
+
+%color5b5b5b {
+	color: #5b5b5b;
+}
+
+%colorf37e00 {
+	color: #f37e00;
+}
+
+%color2b6dbe {
+	color: #2b6dbe;
+}
+
+%color75a71d {
+	color: #75a71d;
+}
+
+%colorff8723 {
+	color: #ff8723;
+}
+
+%colord63530 {
+	color: #d63530;
+}
+
+%colorb87a39 {
+	color: #b87a39;
+}
+
+%color2b6cbc {
+	color: #2b6cbc;
+}
+
+%color70787b {
+	color: #70787b;
+}
+
+%color424347 {
+	color: #424347;
+}
+
+%color2c6dbd {
+	color: #2c6dbd;
+}
+
+%colorb0a59f {
+	color: #b0a59f;
+}
+
+%color1a1a1a {
+	color: #1a1a1a;
+}
+
+%color36a7ef {
+	color: #36a7ef;
+}
+
+%radiu {
+	border-radius: 5px;
+}
+
+%single-row-ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+%box-sizing {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+%before {
+	&:before {
+		content: '';
+		@extend %absolute;
+	}
+}
+
+%after {
+	&:after {
+		content: '';
+		@extend %absolute;
+	}
+}
