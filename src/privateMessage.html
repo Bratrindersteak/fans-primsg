@@ -23,15 +23,27 @@
 		<label for="uploadPic" class="send"></label>
 		<input class="send" id="uploadPic" type="file" multiple="multiple" accept="image/jpg,image/png,image/jpeg" />
 	</div>
-
+	<div class="alpha" id="alphaLayer" style="display: none"></div>
+	<div class="popup display" style="display: none">
+		<p class="content"><span class="text">确认删除该条信息?</span></p>
+		<div class="btn">
+			<button type="button" class="button confirm">确认</button>
+			<button type="button" class="button cancel">取消</button>
+		</div>
+	</div>
+	
 	<script id="listTemplate" type="text/x-handlebars-template">
 		{{#each this.data}}
 			<li class="message-box">
-				<div class="time-info"><span class="date">{{day this.createTime}}</span><span class="time">{{time this.createTime}}</span></div>
+				{{#isSameTime this.createTime}}
+					<div class="time-info">{{dateTime this.createTime}}</div>
+				{{/isSameTime}}
 				<div class="main-info{{sender this.senderUid}} {{messageType this.contentType}}">
 					{{#hasPortrait contentType}}
-						<div class="portrait image" data-pgc='selfIsPgc'>
-							<img src="{{../../self.selfPic}}" width="100%" />
+						<div class="portrait image">
+							<a href="http://www.baidu.com/" style="display: block">
+								<img src="{{../../self.selfPic}}" width="100%" />
+							</a>
 						</div>
 					{{/hasPortrait}}
 					{{messageContent this}}
@@ -41,10 +53,14 @@
 	</script>
 
 	<script id="sendTemplate" type="text/x-handlebars-template">
-		<div class="time-info"><span class="date">{{day this.datetime}}</span><span class="time">{{time this.datetime}}</span></div>
+		{{#isSameTime this.datetime}}
+			<div class="time-info">{{dateTime this.datetime}}</div>
+		{{/isSameTime}}
 		<div class="main-info mein {{senderMessageType content}}">
-			<div class="portrait image" data-pgc='selfIsPgc'>
+			<div class="portrait image">
+				<a href="http://www.baidu.com/" style="display: block">
 				<img src="{{this.senderPic}}" width="100%" />
+				</a>
 			</div>
 			{{sendMessageContent this.content}}
 		</div>

@@ -84,6 +84,7 @@ textarea {
 }
 
 input[type=submit], input[type=button], button {
+	background-color: transparent;
 	@extend %pointer;
 }
 

@@ -68,6 +68,8 @@ define('privateMessage', function(require, exports, module) {
     var SHOW_DELAY = 0; // 页面加载展示延时.
     var TIME_DELAY = 200; // 页面加载展示延时.
     var NICK_NAME = '私信会话页'; // 私信页面title默认名称.
+    var CURRENT_YEAR = new Date().getFullYear(); // 当前年份.
+    var CURRENT_DATE = new Date().getDate(); // 当前日期.
 
 	// 变量声明====================================================================================================
 	var devMode = false; //是否是开发模式，上线需要设置为false.
@@ -76,13 +78,14 @@ define('privateMessage', function(require, exports, module) {
     var time = 0;	// 页面初始化获取客户端提供的用户信息次数.
     var page = 1;	// "我的私信——详情列表"接口 页码数.
 	var userInfo = {};	// app提供的用户信息.
-	var nickname = ''; // 出品人名称.
+    var messageTime = []; // 私信时间条-时分值数组.
+	var nickname = ''; // 私信页面title.
+    var picScroll; // 展示大图声明.
     var myScroll = new IScroll('#wrapper', { // 私信列表初始化.
         hScrollbar:false,
         vScrollbar:false,
         checkDOMChanges: true
     });
-    var picScroll;
 
 	// DOM声明====================================================================================================
 	var $window = $(window);
@@ -247,8 +250,8 @@ define('privateMessage', function(require, exports, module) {
 	var ListView = Bone.View.extend({ // 私信列表视图.
 		el: $messageList,
         events: {
-            'touchstart .text .content .info': 'deleteStart', // 删除文字私信.
-            'touchend .text .content .info': 'deleteEnd', // 删除文字私信.
+            'touchstart .content': 'deleteStart', // 删除单条私信.
+            'touchend .content': 'deleteEnd', // 删除单条私信.
 		    'touchstart .text .content a': 'touchStartLink', // 触碰文字私信链接.
             'touchend .text .content a': 'touchEndLink', // 触碰文字私信链接.
             'tap .picture .content .image': 'tapPicture', // 点击图片帖子.
@@ -258,14 +261,14 @@ define('privateMessage', function(require, exports, module) {
             this.listenTo(this.model, 'response', this.render);
             this.scrollList();
 
-            if (window.localStorage && localStorage.getItem('primsg-to_uid:' + TO_UID)) {
-                var data = util.JSONParse(localStorage.getItem('primsg-to_uid:' + TO_UID));
-
-                this.render(data);
-                page = 2;
-
-                return;
-            }
+            // if (window.localStorage && localStorage.getItem('primsg-to_uid:' + TO_UID)) {
+            //     var data = util.JSONParse(localStorage.getItem('primsg-to_uid:' + TO_UID));
+            //
+            //     this.render(data);
+            //     page = 2;
+            //
+            //     return;
+            // }
 
             this.model.urlData.page = page;
             this.model.fetch({
@@ -348,9 +351,10 @@ define('privateMessage', function(require, exports, module) {
                 }
             });
         },
-        deleteStart: function() {
+        deleteStart: function(event) {
 		    this.deleteTimer = setTimeout(function() {
-		        alert( 'delete' );
+                $(event.currentTarget).parents('li').remove();
+                myScroll.refresh();
             }, 800);
         },
         deleteEnd: function() {
@@ -736,7 +740,11 @@ define('privateMessage', function(require, exports, module) {
     module.exports = {
         init: function (params) {
             var app = new WebApp(params);
-            app.start(params);
+            app.start(params)
+    
+            confirm.showConfirm({
+                content: '删除'
+            });
         }
     };
 
@@ -847,14 +855,37 @@ define('privateMessage', function(require, exports, module) {
         }
         return senderMessageContent;
     });
-
-	Handlebars.registerHelper('day', function (value) { // date日期换算.
-		var date = new Date(value);
-		return date.getFullYear() + '-' + common.checkDigit(date.getMonth() + 1) + '-' + common.checkDigit(date.getDate());
-	});
-
-	Handlebars.registerHelper('time', function (value) { // time时间换算.
-		var date = new Date(value);
-		return common.checkDigit(date.getHours()) + ':' + common.checkDigit(date.getMinutes());
+    
+    Handlebars.registerHelper('isSameTime', function (value, options) { // Date日期时间是否为同年同月同日同时的同一分钟判断.
+        var dateTime = new Date(value);
+        var date = dateTime.getFullYear() + '-' + common.checkDigit(dateTime.getMonth() + 1) + '-' + common.checkDigit(dateTime.getDate());
+        var time = common.checkDigit(dateTime.getHours()) + ':' + common.checkDigit(dateTime.getMinutes());
+        
+        messageTime.push(date + ' ' + time);
+        
+        if (messageTime.length && messageTime[messageTime.length - 2] !== (date + ' ' + time)) {
+            return options.fn(this);
+        }
+    });
+    
+	Handlebars.registerHelper('dateTime', function (value) { // Date日期时间换算.
+		var dateTime = new Date(value);
+		var year = dateTime.getFullYear();
+		var month = common.checkDigit(dateTime.getMonth() + 1);
+		var date = common.checkDigit(dateTime.getDate());
+        var time = common.checkDigit(dateTime.getHours()) + ':' + common.checkDigit(dateTime.getMinutes());
+		var yearMonthDate = year + '-' + month + '-' + date;
+        var monthDate = month + '-' + date;
+        
+        if (year === CURRENT_YEAR) {
+            
+            if (date === common.checkDigit(CURRENT_DATE)) {
+                return '<span class="time">' + time + '</span>';
+            } else {
+                return '<span class="date">' + monthDate + '</span><span class="time">' + time + '</span>';
+            }
+        } else {
+            return '<span class="date">' + yearMonthDate + '</span><span class="time">' + time + '</span>';
+        }
 	});
 });
