@@ -13,19 +13,25 @@
 </head>
 <body>
 	<div class="wrapper pull" id="wrapper">
-		<ul id="messageList" class="message-list iscroll list-loading">
-		</ul>
+		<ul class="message-list iscroll list-loading" id="messageList"></ul>
 	</div>
 	<div class="loading-icon transparent" id="loading"></div>
-	<div id="displayLayer" class="display-layer" style="display: none;cursor: pointer"><img class="wide reset" src="" /></div>
-	<div id="sendBox" class="send-box">
-		<input id="contentInput" type="text" class="input" />
-		<label for="uploadPic" class="send"></label>
-		<input class="send" id="uploadPic" type="file" multiple="multiple" accept="image/jpg,image/png,image/jpeg" />
+	<div class="display-layer" id="displayLayer" style="display: none"><img class="wide reset" src="" /></div>
+	<div class="bottom-module" id="bottomModule">
+		<div class="send-box" id="sendBox">
+			<button type="button" class="shift to-menu"></button>
+			<input class="input" id="contentInput" type="text" maxlength="300" />
+			<label class="send" for="uploadPic"></label>
+			<input class="send" id="uploadPic" type="file" multiple="multiple" accept="image/jpg,image/png,image/jpeg" />
+		</div>
+		<div class="menu" id="menuBox">
+			<button type="button" class="shift to-send"></button>
+			<button type="button" class="trash-all" id="trashAll"></button>
+		</div>
 	</div>
 	<div class="alpha" id="alphaLayer" style="display: none"></div>
-	<div class="popup display" style="display: none">
-		<p class="content"><span class="text">确认删除该条信息?</span></p>
+	<div class="popup" id="popupBox">
+		<p class="content"><span class="text">确定清空会话记录?</span></p>
 		<div class="btn">
 			<button type="button" class="button confirm">确认</button>
 			<button type="button" class="button cancel">取消</button>
@@ -34,18 +40,20 @@
 	
 	<script id="listTemplate" type="text/x-handlebars-template">
 		{{#each this.data}}
-			<li class="message-box">
-				{{#isSameTime this.createTime}}
-					<div class="time-info">{{dateTime this.createTime}}</div>
-				{{/isSameTime}}
+			<li class="message-box" id="{{pl_id}}">
+				<div class="time-info"{{isSameTime this.createTime}}>{{dateTime this.createTime}}</div>
 				<div class="main-info{{sender this.senderUid}} {{messageType this.contentType}}">
-					{{#hasPortrait contentType}}
-						<div class="portrait image">
-							<a href="http://www.baidu.com/" style="display: block">
-								<img src="{{../../self.selfPic}}" width="100%" />
+					{{#portrait this}}
+						<div class="portrait">
+							<a href="{{menuLink}}user.html?user_id={{senderUid}}">
+								<img src="{{../../touser.toPic}}" width="100%" />
 							</a>
 						</div>
-					{{/hasPortrait}}
+					{{else}}
+						<div class="portrait">
+							<img src="{{../../self.selfPic}}" width="100%" />
+						</div>
+					{{/portrait}}
 					{{messageContent this}}
 				</div>
 			</li>
@@ -53,19 +61,25 @@
 	</script>
 
 	<script id="sendTemplate" type="text/x-handlebars-template">
-		{{#isSameTime this.datetime}}
-			<div class="time-info">{{dateTime this.datetime}}</div>
-		{{/isSameTime}}
+		<div class="time-info"{{isSameTime this.datetime}}>{{dateTime this.datetime}}</div>
 		<div class="main-info mein {{senderMessageType content}}">
-			<div class="portrait image">
-				<a href="http://www.baidu.com/" style="display: block">
+			<div class="portrait">
 				<img src="{{this.senderPic}}" width="100%" />
-				</a>
 			</div>
 			{{sendMessageContent this.content}}
 		</div>
 	</script>
-
+	
+	<script id="menuTemplate" type="text/x-handlebars-template">
+		<li class="item"><a href="{{menuLink}}user.html?user_id={{toUid}}">用户主页</a></li>
+		{{#if isShop}}
+			<li class="item"><a href="{{menuLink}}user.html?user_id={{toUid}}#shop">商家店铺</a></li>
+		{{/if}}
+		{{#if touserIsPgc}}
+			<li class="item"><a href="{{menuLink}}item.html?user_id={{toUid}}">粉丝社区</a></li>
+		{{/if}}
+	</script>
+	
 	<script type="text/javascript">
 		seajs.config({
 			map: [

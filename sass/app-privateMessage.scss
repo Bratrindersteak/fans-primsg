@@ -72,9 +72,9 @@ html {
 }
 
 .time-info {
-	height: 0.22rem;
-	line-height: 0.22rem;
-	padding-top: 0.72rem;
+	height: 0.26rem;
+	line-height: 0.26rem;
+	padding-top: 0.70rem;
 	font-size: 0.28rem;
 	@extend %text-align;
 	@extend %colora6a6a6;
@@ -87,16 +87,17 @@ html {
 
 .main-info {
 	min-height: 0.81rem;
-	padding-top: 0.28rem;
+	padding-top: 0.3rem;
 	@extend %relative;
 
 	.portrait {
-		top: 0.28rem;
+		top: 0.26rem;
 		left: 0;
 		width: 0.81rem;
 		height: 0.81rem;
 		margin: 0 0.5rem 0 0.28rem;
 		@extend %absolute;
+		@extend %font-zero;
 
 		.gold-logo {
 			top: 0px;
@@ -117,7 +118,7 @@ html {
 
 	.content {
 		max-width: 53.334%;
-		margin: 0.04rem 0 0 22.934%;
+		margin-left: 1.59rem;
 		@extend %relative;
 		@extend %float-left;
 		@extend %bkgf6f6f6;
@@ -125,7 +126,7 @@ html {
 		@extend %after;
 
 		&:after {
-			top: 0.26rem;
+			top: 0.24rem;
 			left: -0.16rem;
 			width: 0;
 			height: 0;
@@ -160,21 +161,35 @@ html {
 
 .topic {
 	width: 94.66666666666667%;
+	margin-top: 0.3rem;
 	margin-left: 2.66666666666667%;
-	padding: 0 4% 0.3rem;
+	padding-top: 0;
 	@extend %bkgf6f6f6;
 	@extend %radiu;
-	@extend %box-sizing;
-
+	
+	.content {
+		float: none;
+		margin: 0;
+		max-width: none;
+		position: static;
+		background-color: transparent;
+		border-radius: 0;
+		
+		&:after {
+			border: none;
+		}
+	}
+	
 	.link {
 		display: block;
 		width: 100%;
-		padding-bottom: 0.3rem;
-
+		padding: 0.21rem 0.3rem 0;
+		@extend %box-sizing;
+		
 		.image {
 			overflow: hidden;
-			height: 3.25rem;
-			line-height: 3.25rem;
+			height: 3.26rem;
+			line-height: 3.26rem;
 			@extend %font-zero;
 
 			img {
@@ -184,18 +199,15 @@ html {
 	}
 
 	.title {
-		line-height: 0.4rem;
-		margin-bottom: 0.12rem;
-		padding-top: 0.22rem;
+		line-height: 0.48rem;
+		margin-bottom: 0.11rem;
 		font-size: 0.32rem;
 	}
 }
 
 .multi-topic {
-	margin-bottom: -0.3rem;
-
 	li {
-		padding: 0.3rem 0;
+		margin: 0 0.3rem;
 		border-top: 1px solid #dedede;
 	}
 
@@ -204,23 +216,26 @@ html {
 	}
 
 	a {
+		margin: 0 -0.3rem;
+		padding: 0.3rem;
 		justify-content: space-between;
 		@extend %flex-box;
 	}
 
 	.title {
 		width: 80%;
-		height: 0.8rem;
-		line-height: 0.4rem;
+		height: 0.88rem;
+		line-height: 0.44rem;
 		margin-bottom: 0;
 		padding: 0;
 		@extend %flex-elements-auto;
 		@extend %float-left;
+		@include multiRowEllipsis(2);
 
 		.span {
 			display: inline-block;
 			vertical-align: -50%;
-			@include multiRowEllipsis(2);
+			font-size: 0.3rem;
 		}
 	}
 
@@ -293,8 +308,7 @@ html {
 	    left: inherit;
 		right: 0;
 		margin: 0 0.28rem 0 0.5rem;
-		@extend %float-right;
-
+		
 		&:before {
 			width: 0;
 			height: 0;
@@ -302,7 +316,7 @@ html {
 	}
 
 	.content {
-		margin: 0.04rem 22.934% 0 0;
+		margin-right: 1.59rem;
 		@extend %float-right;
 
 		&:after {
@@ -382,6 +396,11 @@ html {
 	 //}
 
 	img {
+		transform: translate3d(0, 0, 0);
+		-ms-transform: translate3d(0, 0, 0); /* IE 9 */
+		-moz-transform: translate3d(0, 0, 0); /* Firefox */
+		-webkit-transform: translate3d(0, 0, 0); /* Safari 和 Chrome */
+		-o-transform: translate3d(0, 0, 0); /* Opera */
 		@extend %absolute;
 	}
 
@@ -432,17 +451,18 @@ html {
 	}
 }
 
-.send-box {
+.bottom-module {
+	overflow: hidden;
 	bottom: 0;
 	left: 0;
 	width: 100%;
+	height: 1.02rem;
 	padding-top: 0.1rem;
 	z-index: 10;
 	@extend %absolute;
-	@extend %bkgfff;
 	@extend %font-zero;
 	@extend %after;
-
+	
 	&:after {
 		top: 0;
 		left: 0;
@@ -450,32 +470,110 @@ html {
 		height: 0.1rem;
 		@include normalGradient(linear, top, #ffffff, #f5f5f5);
 	}
+	
+	.shift {
+		width: 13.46666666666667%;
+		height: 100%;
+		@extend %relative;
+		@extend %after;
+		@extend %bkgfff;
+		
+		&:after {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	}
+	
+	.to-menu {
+		&:after {
+			background: url(../img/to-menu.png) no-repeat;
+			background-size: auto 27.45098039215686%;
+			background-position: center;
+		}
+	}
+	
+	.to-send {
+		&:after {
+			background: url(../img/to-send.png) no-repeat;
+			background-size: auto 40.19607843137255%;
+			background-position: center;
+		}
+	}
+}
 
-	.input {
-		width: 74.666%;
+.cover {
+	@extend %before;
+	
+	&:before {
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+	}
+}
+
+.send-box {
+	top: 0.1rem;
+	left: 0;
+	width: 100%;
+	height: 1.02rem;
+	@extend %absolute;
+	@extend %bkgfff;
+	@extend %after;
+	
+	&:after {
+		top: 50%;
+		right: 19.73333333333333%;
+		width: 62.8%;
 		height: 0.7rem;
-		margin: 0.16rem 0 0.16rem 5.334%;
-		padding: 0 0.24rem;
-		border: none;
-		border-radius: 0.36rem;
-		font-size: 0.34rem;
+		margin-top: -0.35rem;
+		border-radius: 0.35rem;
 		@extend %bkgf6f6f6;
+	}
+	
+	.shift {
+		vertical-align: bottom;
+	}
+	
+	.input {
+		width: 66.8%;
+		height: 100%;
+		padding: 0 4% 0 8%;
+		background-color: transparent;
+		border-left: 1px solid #f6f6f6;
+		border-radius: 0;
+		font-size: 0.34rem;
+		z-index: 1;
+		@extend %relative;
 		@extend %box-sizing;
 	}
 
 	.send {
 		display: inline-block;
-		width: 20%;
-		height: 1.02rem;
-		line-height: 1.02rem;
-		background: url(../img/phone-upload.png) no-repeat;
-		background-size: auto 33.3333333333334%;
-		background-position: center;
-		vertical-align: -0.4rem;
-		font-size: 0.34rem;
+		width: 19.73333333333333%;
+		height: 100%;
+		vertical-align: bottom;
 		@extend %text-align;
 		@extend %bkgfff;
 		@extend %colora6a6a6;
+	}
+	
+	label {
+		@extend %relative;
+		@extend %after;
+		
+		&:after {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url(../img/phone-upload.png) no-repeat;
+			background-size: auto 33.33333333333333%;
+			background-position: center;
+		}
 	}
 
 	input[type=file] {
@@ -487,6 +585,62 @@ html {
 
 	.able {
 		color: #1a1a1a;
+	}
+}
+
+.menu {
+	top: 1.12rem;
+	left: 0;
+	width: 100%;
+	height: 1.02rem;
+	@extend %absolute;
+	@extend %flex-box;
+	
+	.shift {
+		@extend %flex-elements-auto;
+	}
+	
+	.service {
+		width: 73.2%;
+		height: 100%;
+		vertical-align: bottom;
+		@extend %flex-elements-auto;
+		@extend %flex-box;
+	}
+	
+	.item {
+		height: 100%;
+		line-height: 1.02rem;
+		border-left: 1px solid #f6f6f6;
+		font-size: 0.32rem;
+		@extend %text-align;
+		@extend %flex-elements-auto;
+		@extend %bkgfff;
+		
+		a {
+			@extend %color1a1a1a;
+		}
+	}
+	
+	.trash-all {
+		width: 13.33333333333333%;
+		height: 100%;
+		border-left: 1px solid #f6f6f6;
+		@extend %relative;
+		@extend %flex-elements-auto;
+		@extend %bkgfff;
+		@extend %box-sizing;
+		@extend %after;
+		
+		&:after {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url(../img/trash.png) no-repeat;
+			background-size: auto 33.33333333333333%;
+			background-position: center;
+		}
 	}
 }
 

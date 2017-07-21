@@ -39,18 +39,18 @@ dolphin.WebSocketTransport = function(baseObject){
 	}
 
 	_self.connect = function(){
-		
+
 		console.log("connect to " + url);
-		
+
 		var ws = new WebSocket(url);
 		_self.ws = ws;
 		var connect_timeout = setTimeout(function() {
             console.log("Socket connection timeout readyState:%d", ws.readyState);
             ws.close();
-        }, _self.config.connect_timeout); 
+        }, _self.config.connect_timeout);
 
 		ws.onopen = function() {
-            if (connect_timeout) clearTimeout(connect_timeout);           
+            if (connect_timeout) clearTimeout(connect_timeout);
             console.log("WebSocket connect success.");
             ws.send(_self.config.handshake());
         };
@@ -61,13 +61,13 @@ dolphin.WebSocketTransport = function(baseObject){
 
         ws.onclose = function() {
             if (heartbeatInterval) clearInterval(heartbeatInterval);
-            if (connect_timeout) clearTimeout(connect_timeout);  
+            if (connect_timeout) clearTimeout(connect_timeout);
             console.log("WebSocket connection close",ws.readyState);
             _self.reconnect();
         };
 
         ws.onmessage = function(evt) {
-            
+
             if(evt && evt.data){
             	//websocket string deserialize json
             	var msgs = JSON.parse(evt.data);
@@ -82,7 +82,7 @@ dolphin.WebSocketTransport = function(baseObject){
             }
             //error occured 错误消息关闭连接，重连
             ws.close();
-                  
+
         };
 
 
@@ -97,7 +97,7 @@ dolphin.isOpSuccess = function(op){
 	}else{
 		return true;
 	}
-}	
+}
 
 dolphin.JsonpPollingTransport = function(baseObject){
 
@@ -124,7 +124,7 @@ dolphin.JsonpPollingTransport = function(baseObject){
 	}
 
 	var heartbeat = function(){
-		
+
 		send(_self.config.heartbeat());
 	};
 
@@ -145,12 +145,12 @@ dolphin.JsonpPollingTransport = function(baseObject){
              		jsonpResulthandling(_self.handleMessage(data));
              		console.log("jsonp success result");
              	}
-             	
+
         	},
-        	error: function(xhr, reason, exception){ 
+        	error: function(xhr, reason, exception){
         		console.log("jsonp error");
         		jsonpResulthandling(dolphin.Operation.OP_SYSTEM_ERROR);
-        		
+
         	}
     	});
 
@@ -208,8 +208,8 @@ dolphin.MyMessage = function (config) {
 
 	var retry_timeout;
 	var transports = [];
-	
-	
+
+
 	this.config.handshake = function(){
 		return JSON.stringify({
 	                'ver': ver,
@@ -253,7 +253,7 @@ dolphin.MyMessage = function (config) {
                         	break;
                         case dolphin.Operation.OP_PONG:
                         	console.log("receive pong message");
-                     
+
                         	break;
                         case dolphin.Operation.OP_SEND_SMS_REPLY:
                         	messages.push(msgs[i].data);
@@ -271,25 +271,25 @@ dolphin.MyMessage = function (config) {
                     	console.log("receive push message");
                     	onmessage(messages);
                     }
-                    
+
                 }else{
                 	//receive error message
                     break;
                 }
 
             }
-            
+
         }
         return op;
 	};
 
-	
+
 	this.retry = function(){
 		if(status){
 			console.log(new Date().getTime());
 			retry_timeout = setTimeout(self.current_transport.connect, 5000);
 		}
-		
+
 	};
 
 	var clear = function(){
@@ -305,19 +305,19 @@ dolphin.MyMessage = function (config) {
 		}
 		status = false;
 		clear();
-		
+
 	}
 
 
 	var router_timeout;
 	this.start = function() {
-		
+
 		if(status){
 			return;
 		}
 		serverTrans={}
 		this.callRouter();
-		
+
 
 	};
 
@@ -337,15 +337,15 @@ dolphin.MyMessage = function (config) {
 			console.log("start message %s", status);
 			self.current_transport.connect();
 		}else{
-			//fail 
+			//fail
 			console.log("get serverTrans fail");
 
 		}
-		
+
 	};
 
 	this.getAllowTransport = function(){
-		
+
 		var btrans = self.browserTransport();
 		if(btrans["websocket"] && serverTrans["websocket"]){
 			var config = dolphin.extends(self.config);
@@ -389,7 +389,7 @@ dolphin.MyMessage = function (config) {
          			self.getCurrentTransport(serverTrans);
          		}
          	},
-        	error: function(xhr, reason, exception){ 
+        	error: function(xhr, reason, exception){
         		console.log("get router failed");
         	}
     	});
