@@ -54,10 +54,11 @@
   
     > This could be iscroll & ios bug
     
-  - 手指滑动列表时动能过大. ``` BUG ```
+  - 手指滑动列表时动能过大. ``` BUG ```
   
-  - 双击缩放大图.
+    > This could be iscroll & ios bug
+    
+  - 双击缩放大图.
   
-  - 接口异常处理.
-
+  - 接口异常处理.
   
