@@ -50,5 +50,5 @@
      - 聊天记录清空按钮点击事件.
 
 - ### 待优化
-  - 上滑页面手指出界时消息列表悬停. ``` BUG ```
-    > This could be iscroll & ios bug
+  - ``` BUG ```上滑页面手指出界时消息列表悬停.
+    > This could be iscroll & ios bug
